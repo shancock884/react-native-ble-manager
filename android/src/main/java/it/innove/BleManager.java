@@ -721,6 +721,8 @@ class BleManager extends ReactContextBaseJavaModule {
                     if (peripheral.isConnected()) {
                         peripheral.disconnect(null, true);
                     }
+                    peripheral.errorAndClearAllCallbacks("disconnected by BleManager");
+                    peripheral.resetQueuesAndBuffers();
                 }
             }
         }
