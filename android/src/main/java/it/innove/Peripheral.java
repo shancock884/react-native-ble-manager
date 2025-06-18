@@ -1016,7 +1016,13 @@ public class Peripheral extends BluetoothGattCallback {
                 return;
             } else {
                 this.retrieveServicesCallbacks.addLast(callback);
-                gatt.discoverServices();
+                if (!gatt.discoverServices()) {
+                    for (Callback retrieveServicesCallback : retrieveServicesCallbacks) {
+                        retrieveServicesCallback.invoke("Error starting service retrieval.");
+                    }
+                    retrieveServicesCallbacks.clear();
+                    completedCommand();
+                }
             }
         });
     }
